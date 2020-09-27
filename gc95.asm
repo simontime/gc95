@@ -50,12 +50,22 @@ GameExe:
     mov     r15,#0
     call    Fi_graph
     
+    ; play sound
+    mov     r1,#8
+    movw    rr2,#2000h
+    call    SND_ADDR
+    mov     r0,#5
+    call    CTRL_SP
+    
     ; delay for 2 seconds
     mov     r2,#10
 delay_loop:
     call    Delay200ms
     dec     r2
     br      nz,delay_loop
+    
+    ; stop speech
+    call    Speech_Stop
     
     ; clear screen
     call    Cls_scn
@@ -396,12 +406,17 @@ adig3:
     sub     r11,#6
     
 mul_check:
-    ; increment if all numbers equal
+    ; increment/decrement if all numbers equal
     cmp     r9,r10
     br      ne,gen_done
     cmp     r10,r11
     br      ne,gen_done
+    cmp     r11,#9
+    br      eq,decrem
     inc     r11
+    br      gen_done
+decrem:
+    dec     r11
     
 gen_done:
     ret
