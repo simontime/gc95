@@ -1,0 +1,8 @@
+-p2 020
+gc95.obj
+syscall.obj
+-o gc95.pro
+-M
+-M1
+-M2
+-e
